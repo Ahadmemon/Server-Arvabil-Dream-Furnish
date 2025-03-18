@@ -36,7 +36,7 @@ const feedbackController = {
         try {
             // Fetch feedbacks and populate the username field
             const feedbacks = await Feedback.find({ productId: req.params.productId })
-                .populate('userId', 'username', 'userImage') // Populating username from User model
+                // Populating username from User model
                 .sort({ timestamp: -1 });
 
             res.status(200).json(feedbacks);

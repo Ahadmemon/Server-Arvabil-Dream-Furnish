@@ -1,4 +1,6 @@
 const categoryModel = require("./../models/categoryModel");
+const mongoose = require("mongoose");
+
 const categoryController = {
   addCategory: async function (req, res) {
     try {
@@ -14,18 +16,27 @@ const categoryController = {
       return res.json({ success: false, message: err.message });
     }
   },
+
+
   deleteCategory: async function (req, res) {
-    const { id } = req.query._id;
     try {
-      const findCategoryIdToDelete = await categoryModel.findByIdAndDelete(id);
-      if (!findCategoryIdToDelete) {
-        return res.json({ success: false, message: "Category not found" });
+      const { _id } = req.params; // Extracting _id correctly, name should be _id same as db
+      console.log("Received ID:", _id); // Debugging log
+
+      // Ensure ID is a valid MongoDB ObjectId
+      if (!mongoose.Types.ObjectId.isValid(_id)) {
+        return res.status(400).json({ success: false, message: "Invalid category ID" });
       }
-      const categories = await categoryModel.find();
-      categories.save();
-      return res.json({ succes: true, message: "Category deleted", data: categories })
+
+      const deletedCategory = await categoryModel.findByIdAndDelete(_id);
+
+      if (!deletedCategory) {
+        return res.status(404).json({ success: false, message: "Category not found" });
+      }
+
+      return res.json({ success: true, message: "Category deleted successfully" });
     } catch (err) {
-      return res.json({ success: false, message: err.message });
+      return res.status(500).json({ success: false, message: err.message });
     }
   },
   fetchAllCategories: async function (req, res) {

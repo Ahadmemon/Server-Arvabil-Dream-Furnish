@@ -18,8 +18,8 @@ const productController = {
   },
   deleteProduct: async function (req, res) {
     try {
-      const id = req.query._id;
-      const findProductIdToDelete = await productModel.findByIdAndDelete(id);
+      const { _id } = req.params;
+      const findProductIdToDelete = await productModel.findByIdAndDelete(_id);
       if (!findProductIdToDelete) {
         return res.json({ success: false, message: "Product not found" });
       }
@@ -31,17 +31,17 @@ const productController = {
       return res.json({ success: false, message: err.message });
     }
   },
-  adminAuth: async function (req, res) {
-    try {
-      // await userAuthMiddleware.auth(req, res, next); // Await the auth middleware
-      const user = await userModel.findById(req.user);
-      console.log(user);
-      return res.json({ ...user._doc, token: req.token });
-    } catch (err) {
-      console.error(err);
-      return res.status(401).json({ message: "Authentication failed." });
-    }
-  },
+  // adminAuth: async function (req, res) {
+  //   try {
+  //     // await userAuthMiddleware.auth(req, res, next); // Await the auth middleware
+  //     const user = await userModel.findById(req.user);
+  //     console.log(user);
+  //     return res.json({ ...user._doc, token: req.token });
+  //   } catch (err) {
+  //     console.error(err);
+  //     return res.status(401).json({ message: "Authentication failed." });
+  //   }
+  // },
   fetchAllProducts: async function (req, res) {
     try {
       const products = await productModel.find();

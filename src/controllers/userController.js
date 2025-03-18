@@ -153,7 +153,21 @@ const userController = {
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });
     }
-  }
+  },
+  fetchAllUsers: async function (req, res) {
+    try {
+      const foundUsers = await userModel.find({});
+      return res.json({
+        success: true,
+        data: foundUsers,
+        message: "Users found",
+      });
+    } catch (err) {
+      console.log("Error fetching users:", err.message);
+      return res.json({ success: false, message: err.message });
+    }
+  },
+
   // admin_auth: async function (req, res) {
   //   try {
   //     // await userAuthMiddleware.auth(req, res, next); // Await the auth middleware

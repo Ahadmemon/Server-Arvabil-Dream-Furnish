@@ -3,5 +3,5 @@ const categoryController = require("./../controllers/categoryController");
 categoryRoutes.post("/addCategory", categoryController.addCategory);
 categoryRoutes.get("/fetchAllCategories", categoryController.fetchAllCategories);
 categoryRoutes.get("/:_id", categoryController.fetchCategoryById);
-categoryRoutes.delete("/deleteCategory", categoryController.deleteCategory);
+categoryRoutes.delete("/:_id/deleteCategory", categoryController.deleteCategory);
 module.exports = categoryRoutes;

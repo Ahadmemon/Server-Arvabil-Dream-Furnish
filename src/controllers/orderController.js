@@ -51,6 +51,19 @@ const orderController = {
       return res.json({ success: false, message: err.message });
     }
   },
+  fetchAllOrdersForAdmin: async function (req, res) {
+    try {
+      const foundOrders = await orderModel.find({})
+      return res.json({
+        success: true,
+        data: foundOrders,
+        message: "Orders found",
+      });
+    } catch (err) {
+      console.log("Error fetching orders:", err.message);
+      return res.json({ success: false, message: err.message });
+    }
+  },
   updateOrder: async function (req, res) {
     try {
       const { orderId, status, razorPayPaymentId, razorPaySignature } = req.body;
@@ -63,6 +76,23 @@ const orderController = {
         success: true,
         data: updatedOrders,
         message: "Orders updated successfully",
+      });
+    } catch (err) {
+      return res.json({ success: false, message: err.message });
+    }
+  },
+  updateOrderStatus: async function (req, res) {
+    try {
+      const { status, id } = req.body;
+      const updatedOrders = await orderModel.findOneAndUpdate(
+        { _id: id, }, // Match the order and specific item
+        { status: status },
+        { new: true }
+      );
+      return res.json({
+        success: true,
+        data: updatedOrders,
+        message: "Orders status updated successfully",
       });
     } catch (err) {
       return res.json({ success: false, message: err.message });

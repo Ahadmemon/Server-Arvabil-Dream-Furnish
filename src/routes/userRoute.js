@@ -4,6 +4,7 @@ const { auth } = require("../middlewares/auth");
 
 userRoutes.post("/signUp", userController.signUp);
 userRoutes.post("/signIn", userController.signIn);
+userRoutes.get("/fetchAllUsers", userController.fetchAllUsers);
 userRoutes.post("/editUser", auth, userController.editUser);
 // userRoutes.post("/addToCart", auth, userController.addToCart);
 userRoutes.use(auth);
