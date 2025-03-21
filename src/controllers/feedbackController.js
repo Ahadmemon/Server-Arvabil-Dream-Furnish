@@ -28,7 +28,7 @@ const feedbackController = {
             // Respond with success message
             res.status(201).json({ message: "Feedback submitted successfully" });
         } catch (error) {
-            console.error(error);
+            // console.error(error);
             res.status(500).json({ error: "Error submitting feedback" });
         }
     },

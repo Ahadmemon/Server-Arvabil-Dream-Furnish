@@ -31,15 +31,15 @@ const orderController = {
   fetchOrdersForUser: async function (req, res) {
     try {
       const userId = req.user; // Assuming req.user contains the userId of the logged-in user
-      console.log("Fetching orders for user:", userId);
+      // console.log("Fetching orders for user:", userId);
       // const sampleOrders = await orderModel.find().limit(5);
       // console.log(sampleOrders);
       // Fetch orders based on user._id
       const foundOrders = await orderModel.find({ "user._id": new mongoose.Types.ObjectId(userId) }).populate("user", "name email profilePic"); // Populating user data if needed
       if (foundOrders.length === 0) {
-        console.log("No orders found for user:", userId);
+        // console.log("No orders found for user:", userId);
       }
-      console.log("Found orders:", foundOrders);
+      // console.log("Found orders:", foundOrders);
 
       return res.json({
         success: true,
@@ -47,7 +47,7 @@ const orderController = {
         message: "Orders found",
       });
     } catch (err) {
-      console.log("Error fetching orders:", err.message);
+      // console.log("Error fetching orders:", err.message);
       return res.json({ success: false, message: err.message });
     }
   },
@@ -60,7 +60,7 @@ const orderController = {
         message: "Orders found",
       });
     } catch (err) {
-      console.log("Error fetching orders:", err.message);
+      // console.log("Error fetching orders:", err.message);
       return res.json({ success: false, message: err.message });
     }
   },

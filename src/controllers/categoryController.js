@@ -21,7 +21,7 @@ const categoryController = {
   deleteCategory: async function (req, res) {
     try {
       const { _id } = req.params; // Extracting _id correctly, name should be _id same as db
-      console.log("Received ID:", _id); // Debugging log
+      // console.log("Received ID:", _id); // Debugging log
 
       // Ensure ID is a valid MongoDB ObjectId
       if (!mongoose.Types.ObjectId.isValid(_id)) {

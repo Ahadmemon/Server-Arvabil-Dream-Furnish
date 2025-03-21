@@ -7,26 +7,26 @@ const auth = async (req, res, next) => {
   try {
     // Retrieve the token from request header
     const token = req.header("x-auth-token");
-    console.log("Token from request header:", token);
+    // console.log("Token from request header:", token);
     if (!token) {
-      console.log("No token, access denied");
+      // console.log("No token, access denied");
       return res.status(401).json({ message: "No auth token, access denied." });
     }
 
     // Verify the token
     const verified = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    console.log('Decoded Token:', verified);
+    // console.log('Decoded Token:', verified);
 
     if (!verified) {
-      console.log("Token verification failed");
+      // console.log("Token verification failed");
       return res.status(401).json({ message: "Token verification failed, access denied." });
     }
 
     // Retrieve user from database using the verified ID
     const user = await userModel.findById(verified.id);
-    console.log(user);
+    // console.log(user);
     if (!user) {
-      console.log("User not found");
+      // console.log("User not found");
       return res.status(401).json({ message: "User not found, access denied." });
     }
 

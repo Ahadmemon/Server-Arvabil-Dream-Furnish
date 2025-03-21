@@ -87,8 +87,8 @@ const cartController = {
         return res.status(400).json({ message: "Product ID is required" });
       }
 
-      console.log("[log] Product ID:", productId);
-      console.log("[log] User ID:", req.user);
+      // console.log("[log] Product ID:", productId);
+      // console.log("[log] User ID:", req.user);
 
       const productObjectId = new mongoose.Types.ObjectId(productId); // Correct ObjectId conversion
 
@@ -96,22 +96,22 @@ const cartController = {
       const cart = await cartModel.findOne({ userId: req.user });
 
       if (!cart) {
-        console.log("[log] Cart not found for user");
+        // console.log("[log] Cart not found for user");
         return res.status(404).json({ message: "Cart not found for user" });
       }
 
       // Check if the product exists in the cart
       const productInCart = cart.items.some(item => {
         if (item.product._id) {
-          console.log("[log] Found productId:", item.product._id);
+          // console.log("[log] Found productId:", item.product._id);
           return item.product._id.toString() === productObjectId.toString();
         }
-        console.log("[log] Missing productId in cart item:", item);
+        // console.log("[log] Missing productId in cart item:", item);
         return false;
       });
 
       if (!productInCart) {
-        console.log("[log] Product not found in cart");
+        // console.log("[log] Product not found in cart");
         return res.status(404).json({ message: "Product not found in cart" });
       }
 
@@ -122,15 +122,15 @@ const cartController = {
       );
 
       if (result.modifiedCount === 0) {
-        console.log("[log] No item was removed, possible mismatch");
+        // console.log("[log] No item was removed, possible mismatch");
         return res.status(404).json({ message: "No item was removed" });
       }
 
-      console.log("[log] Item successfully removed from cart");
+      // console.log("[log] Item successfully removed from cart");
       return res.json({ success: true, message: "Item removed from cart" });
 
     } catch (error) {
-      console.error("[log] Error in removeFromCart:", error);
+      // console.error("[log] Error in removeFromCart:", error);
       return res.status(500).json({ error: error.message });
     }
   },
@@ -152,8 +152,8 @@ const cartController = {
         return res.status(400).json({ message: "Product ID is required" });
       }
 
-      console.log("[log] Product ID:", productId);
-      console.log("[log] User ID:", req.user);
+      // console.log("[log] Product ID:", productId);
+      // console.log("[log] User ID:", req.user);
 
       const productObjectId = new mongoose.Types.ObjectId(productId);
 
@@ -179,7 +179,7 @@ const cartController = {
       return res.json({ success: true, message: "Product quantity incremented", cart });
 
     } catch (error) {
-      console.error("[log] Error in incrementQuantity:", error);
+      // console.error("[log] Error in incrementQuantity:", error);
       return res.status(500).json({ error: error.message });
     }
   },
@@ -191,8 +191,8 @@ const cartController = {
         return res.status(400).json({ message: "Product ID is required" });
       }
 
-      console.log("[log] Product ID:", productId);
-      console.log("[log] User ID:", req.user);
+      // console.log("[log] Product ID:", productId);
+      // console.log("[log] User ID:", req.user);
 
       const productObjectId = new mongoose.Types.ObjectId(productId);
 
@@ -223,7 +223,7 @@ const cartController = {
       return res.json({ success: true, message: "Product quantity decremented", cart });
 
     } catch (error) {
-      console.error("[log] Error in decrementQuantity:", error);
+      // console.error("[log] Error in decrementQuantity:", error);
       return res.status(500).json({ error: error.message });
     }
   }

@@ -12,6 +12,8 @@ const productRoutes = require("./routes/productRoute");
 const feedbackRoutes = require("./routes/feedbackRoute");
 const cartRoutes = require("./routes/cartRoute");
 const orderRoutes = require("./routes/orderRoute");
+const listEndpoints = require("express-list-endpoints");
+// console.log(listEndpoints(app));
 // const { auth } = require("./middlewares/auth");
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -41,10 +43,9 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/cart", cartRoutes);
 // app.use("/admin", userRoutes);
-// app.get("/", (req, res) => {
-//   // res.send("Hello World!");
-//   res.json({ success: true, message: "Hello World!" });
-// });
+app.get("/", (req, res) => {
+  res.send("🚀 Server is running successfully!");
+});
 
 app.listen(PORT, "0.0.0.0", () =>
   console.log(`Server started at port ${PORT}`)

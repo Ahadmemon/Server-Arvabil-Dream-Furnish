@@ -20,17 +20,17 @@ const userController = {
       }
       const hashedPassword = bcrypt.hashSync(userData.password, 10);
       userData.password = hashedPassword;
-      console.log("User data:", userData)
+      // console.log("User data:", userData)
       let newUser = new userModel(userData);
       await newUser.save();
-      console.log('New User', newUser);
+      // console.log('New User', newUser);
       if (!newUser._id) {
         return res.status(500).json({ success: false, message: "Failed to create user. No ID found." });
       }
 
       token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: '7d' });
       // newUser.token = token;
-      console.log("--------Token-------", token);
+      // console.log("--------Token-------", token);
 
 
       // Return the token along with user data in a single response
@@ -58,11 +58,11 @@ const userController = {
           .status(404)
           .json({ success: false, message: "User not found" });
       }
-      console.log('Found User:', foundUser);
+      // console.log('Found User:', foundUser);
       const isValidPwd = bcrypt.compareSync(userData.password, foundUser.password);
 
-      console.log('Password match:', isValidPwd);
-      console.log('User:', foundUser);
+      // console.log('Password match:', isValidPwd);
+      // console.log('User:', foundUser);
       if (!isValidPwd) {
         return res
           .status(401)
@@ -74,7 +74,7 @@ const userController = {
       // Update the user's token in the database
       // foundUser.token = token;
       // await foundUser.save();
-      console.log("--------Token-------", token);
+      // console.log("--------Token-------", token);
 
       return res.status(200).json({ token: token, user: foundUser, success: true, message: "User logged in" });
 
@@ -86,12 +86,12 @@ const userController = {
   userAuth: async function (req, res) {
     try {
       // await userAuthMiddleware.auth(req, res, next); // Await the auth middleware
-      console.log("Reached to userController middleware");
+      // console.log("Reached to userController middleware");
       const user = await userModel.findById(req.user);
-      console.log(user);
+      // console.log(user);
       return res.json({ user: user, token: req.token });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       return res.status(401).json({ message: "Authentication failed." });
     }
   },
@@ -120,6 +120,22 @@ const userController = {
       return res.status(500).json({ success: false, message: error.message });
     }
   },
+  updatePassword: async function (req, res) {
+    try {
+      const { password, _id } = req.body;
+      const user
+        = await userModel.findById(_id);
+      if (user) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+        await user.save();
+        return res.json({ success: true, message: "Password updated" });
+      }
+    } catch (err) {
+      return res.status(500).json({ success: false, message: error.message });
+
+    }
+  },
   editUser: async function (req, res) {
     try {
       const { email, name, password, address, profileImage, phone } = req.body;
@@ -130,7 +146,10 @@ const userController = {
       // Conditionally add each field to the datatoUpdate object if it's not empty
       if (email) datatoUpdate.email = email;
       if (name) datatoUpdate.name = name;
-      if (password) datatoUpdate.password = password;
+      if (password) {
+        const salt = await bcrypt.genSalt(10);
+        datatoUpdate.password = await bcrypt.hash(password, salt);
+      }
       if (address) datatoUpdate.address = address;
       if (profileImage) datatoUpdate.profileImage = profileImage;
       if (phone) datatoUpdate.phone = phone;
@@ -163,7 +182,7 @@ const userController = {
         message: "Users found",
       });
     } catch (err) {
-      console.log("Error fetching users:", err.message);
+      // console.log("Error fetching users:", err.message);
       return res.json({ success: false, message: err.message });
     }
   },
