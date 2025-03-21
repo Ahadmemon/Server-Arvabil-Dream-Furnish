@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const userModel = require("./../models/userModel");
 
 const auth = async (req, res, next) => {
-  console.log("Reached to middleware");
+  // console.log("Reached to middleware");
 
   try {
     // Retrieve the token from request header
@@ -40,7 +40,7 @@ const auth = async (req, res, next) => {
 
     next(); // Proceed to next middleware or route handler
   } catch (error) {
-    console.log("JWT Error:", error.message);
+    // console.log("JWT Error:", error.message);
     return res.status(401).json({ message: "Invalid token, access denied." });
   }
 };
@@ -48,34 +48,3 @@ const auth = async (req, res, next) => {
 module.exports = { auth };
 
 
-
-// const jwt = require("jsonwebtoken");
-
-// const auth = async (req, res, next) => {
-//   console.log("Reached to middleware");
-
-//   try {
-//     const token = req.header("x-auth-token");
-//     if (!token) {
-//       return res.status(401).json({ message: "No auth token, access denied." });
-//     }
-
-//     const verified = jwt.verify(token, process.env.JWT_SECRET);
-
-//     console.log('Token:', token);
-//     console.log('Verified:', verified);
-//     if (!verified || !verified.id) {
-//       return res
-//         .status(401)
-//         .json({ message: "Token verification failed, access denied." });
-//     }
-
-//     req.user = verified.id;
-//     req.token = token;
-//     next();
-//   } catch (error) {
-//     return res.status(401).json({ message: "Invalid token, access denied." });
-//   }
-// };
-
-// module.exports = { auth };
