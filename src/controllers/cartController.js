@@ -7,8 +7,8 @@ const cartController = {
     try {
       const user = req.user;
       const foundCart = await cartModel.findOne({ userId: user }).populate('items.product');//userId is field in cartModel which accepts _id of user
-      console.log('User ID:', user);
-      console.log('Found Cart:', foundCart);
+      // console.log('User ID:', user);
+      // console.log('Found Cart:', foundCart);
       if (!foundCart) {
         return res.json({
           success: true,
@@ -29,8 +29,8 @@ const cartController = {
   addToCart: async function (req, res) {
     try {
       const reqData = req.body;
-      console.log('Request Data:', reqData);
-      console.log('Requested Product ID:', reqData.product._id);
+      // console.log('Request Data:', reqData);
+      // console.log('Requested Product ID:', reqData.product._id);
       // Find the product by ID
       const product = await productModel.findById(reqData.product._id);
 
@@ -51,15 +51,15 @@ const cartController = {
 
       // Check if the product already exists in the cart
       let productInCart = cart.items.find(item => item.product._id.equals(product._id));
-      console.log('Product in cart:', productInCart);
+      // console.log('Product in cart:', productInCart);
       if (productInCart) {
         // If the product is in the cart, increment the quantity
         productInCart.quantity += 1;
-        console.log('Product already in cart:', productInCart);
+        // console.log('Product already in cart:', productInCart);
       } else {
         // If the product is not in the cart, add it with quantity 1
         cart.items.push({ product: product, quantity: 1 });
-        console.log('Product added to cart:', cart.items);
+        // console.log('Product added to cart:', cart.items);
       }
 
       // Save the updated user data
@@ -71,7 +71,7 @@ const cartController = {
         cart,
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       return res.status(500).json({ success: false, message: err.message });
     }
   },
