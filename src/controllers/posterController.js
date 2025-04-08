@@ -34,10 +34,10 @@ const posterController = {
         try {
             // await userAuthMiddleware.auth(req, res, next); // Await the auth middleware
             const user = await userModel.findById(req.user);
-            console.log(user);
+            // console.log(user);
             return res.json({ ...user._doc, token: req.token });
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             return res.status(401).json({ message: "Authentication failed." });
         }
     },

@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 const admin_auth = async (req, res, next) => {
-    console.log("Reached to middleware");
+    // console.log("Reached to middleware");
 
     try {
 

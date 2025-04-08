@@ -9,6 +9,7 @@ const productSchema = new Schema({
   quantity: { type: Number, required: true },
   price: { type: Number, required: true },
   image: { type: [{ type: String, required: true }], default: [] },
+  selected3dImage: { type: String, required: false },
   name: { type: String, required: [true, "Name is required"] },
   description: { type: String, default: "" },
   // feedbacks: [

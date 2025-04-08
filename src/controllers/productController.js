@@ -9,7 +9,7 @@ const productController = {
       newProduct = await newProduct.save();
       return res.json({
         success: true,
-        message: "New Product created",
+        message: "New Product Created",
         data: newProduct,
       });
     } catch (err) {
