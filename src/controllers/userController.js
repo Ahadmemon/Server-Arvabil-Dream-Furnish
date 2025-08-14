@@ -88,7 +88,6 @@ const userController = {
       // await userAuthMiddleware.auth(req, res, next); // Await the auth middleware
       // console.log("Reached to userController middleware");
       const user = await userModel.findById(req.user);
-      console.log(user);
       return res.json({ user: user, token: req.token });
     } catch (err) {
       // console.error(err);
