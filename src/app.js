@@ -22,10 +22,12 @@ const PORT = process.env.PORT || 3000;
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
-    console.log("Connected to database");
+    console.log("✅ Connected to database");
+    console.log("📌 Host:", mongoose.connection.host);
+    console.log("📌 Database:", mongoose.connection.name);
   })
   .catch((err) => {
-    console.log("Error connecting to databse", err);
+    console.log("❌ Error connecting to database:", err);
   });
 // app.use(auth);
 app.use(express.json());

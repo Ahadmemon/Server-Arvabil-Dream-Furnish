@@ -49,7 +49,7 @@ const userController = {
   },
   signIn: async function (req, res) {
     try {
-      const userData = req.body;
+      const userData = req.body; 
       const foundUser = await userModel.findOne({ email: userData.email });
 
 
@@ -88,7 +88,7 @@ const userController = {
       // await userAuthMiddleware.auth(req, res, next); // Await the auth middleware
       // console.log("Reached to userController middleware");
       const user = await userModel.findById(req.user);
-      // console.log(user);
+      console.log(user);
       return res.json({ user: user, token: req.token });
     } catch (err) {
       // console.error(err);

@@ -42,8 +42,9 @@ const categoryController = {
   fetchAllCategories: async function (req, res) {
     try {
       const categories = await categoryModel.find();
+      console.log(categories);
       return res.json({
-        succes: true,
+        success: true,
         message: "All categories fetched",
         data: categories,
       });
