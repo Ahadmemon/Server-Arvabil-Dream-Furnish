@@ -54,6 +54,38 @@ const productController = {
       return res.json({ success: false, message: err.message });
     }
   },
+  fetchRandomProductPerCategory: async function (req, res) {
+  try {
+    const products = await productModel.aggregate([
+      {
+        $group: {
+          _id: "$category", // group by category
+          products: { $push: "$$ROOT" } // store all products in that category
+        }
+      },
+      {
+        $project: {
+          category: "$_id",
+          _id: 0,
+          product: {
+            $arrayElemAt: [
+              "$products",
+              { $floor: { $multiply: [{ $rand: {} }, { $size: "$products" }] } }
+            ]
+          }
+        }
+      }
+    ]);
+
+    return res.json({
+      success: true,
+      message: "One random product per category fetched",
+      data: products,
+    });
+  } catch (err) {
+    return res.json({ success: false, message: err.message });
+  }
+},
   addFeedback: async function (req, res) {
     try {
       const { productId } = req.params;

@@ -4,6 +4,7 @@ const productController = require("./../controllers/productController");
 productRoutes.post("/addProduct", productController.addProduct);
 productRoutes.delete("/:_id/deleteProduct", productController.deleteProduct);
 productRoutes.get("/fetchAllProducts", productController.fetchAllProducts);
+productRoutes.get("/fetchRandomProductPerCategory", productController.fetchRandomProductPerCategory);
 // productRoutes.use(auth);
 
 // productRoutes.post("/:productId/addFeedback", auth, productController.addFeedback);
